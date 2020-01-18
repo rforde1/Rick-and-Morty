@@ -3,13 +3,38 @@ const characterURL = baseURL + "character/";
 const locationURL = baseURL + "location/";
 const episodeURL = baseURL + "episode/";
 
-var test = [6];
+var num = Math.floor(Math.random() * Math.floor(31))
+var test = [num];
 
-
+var num = 0;
 
 $("#char").click(function () { displayCharacters(test) });
 $("#ep").click(function () { displayEpisodes(test) });
 $("#loc").click(function () { displayLocations(test) });
+
+$("#cardContainer").on("click", ".peopleLink", function () {
+    var link = $(this).attr("data-people");
+    console.log("displaying people: " + link);
+
+    displayCharacters(link);
+
+});
+
+$("#cardContainer").on("click", ".episodeLink", function () {
+    var link = $(this).attr("data-episode");
+    console.log("displaying episodes: " + link)
+
+    displayEpisodes("[" + link + "]");
+
+});
+
+$("#cardContainer").on("click", ".locationLink", function () {
+    var link = $(this).attr("data-location");
+    console.log("displaying locations: " + link);
+
+    displayLocations("[" + link + "]");
+
+});
 
 
 
@@ -21,10 +46,19 @@ function displayCharacters(people) {
     }).done(function (response) {
 
         $("#cardContainer").empty();
+        num = 0;
+        //console.log(response);
 
-        for (var i = 0; i < people.length; i++) {
+        if (people.length === 1) {
+            //console.log("one character")
             $("#cardContainer").append(createCharacterElement(response));
 
+        }        //if one character
+        else {
+            for (var i = 0; i < people.length; i++) {
+                $("#cardContainer").append(createCharacterElement(response[i]));
+
+            }//for
         }
 
     });
@@ -36,9 +70,22 @@ function displayEpisodes(episodes) {
         method: "GET"
     }).done(function (response) {
         $("#cardContainer").empty();
-        for (var i = 0; i < episodes.length; i++) {
+        num = 0;
+
+
+        if (episodes.length === 1) {
             $("#cardContainer").append(createEpisodeElement(response));
+
+        }//if 1
+
+        else {
+
+            for (var i = 0; i < episodes.length; i++) {
+                $("#cardContainer").append(createEpisodeElement(response[i]));
+            }
         }
+
+
 
     });
 
@@ -50,8 +97,17 @@ function displayLocations(locations) {
         method: "GET"
     }).done(function (response) {
         $("#cardContainer").empty();
-        for (var i = 0; i < locations.length; i++) {
+        num = 0;
+
+        if (locations.length === 1) {
             $("#cardContainer").append(createLocationElement(response));
+
+        }
+        else {
+
+            for (var i = 0; i < locations.length; i++) {
+                $("#cardContainer").append(createLocationElement(response[i]));
+            }
         }
 
     });
@@ -59,19 +115,23 @@ function displayLocations(locations) {
 
 
 function createCharacterElement(response) {
+    //console.log("Character");
+    //console.log(response);
+    if(response!=null){
 
-    console.log("Character");
-    console.log(response);
-    var charData = parseCharacterData(response);
-    console.log(charData);
-    let eps = charData[2];
+        num++;
+        console.log(num);
+        var charData = parseCharacterData(response);
+        //console.log(charData);
+        let eps = charData[2];
     for (let i = 0; i < eps.length; i++) {
         eps[i] = getLinkId(eps[i]);
     }//for
-
+    
     var charDiv = $("<div>");
     var charPic = $("<img>");
     charPic.attr("src", charData[3]);
+    charPic.attr("alt", charData[0] + " picture");
     charDiv.append(charPic);
     var charName = $("<h4>");
     charName.text(charData[0]);
@@ -79,83 +139,101 @@ function createCharacterElement(response) {
     var charLoc = $("<p>");
     charLoc.text("Location: " + charData[1].name);
     charLoc.attr("data-location", getLinkId(charData[1].url));
+    charLoc.addClass("locationLink");
     charDiv.append(charLoc);
     var episodes = $("<p>");
     episodes.text("Click to view the " + eps.length + " episode(s) this character is in");
-    episodes.attr("data-episodes", eps);
+    episodes.attr("data-episode", eps);
+    episodes.addClass("episodeLink");
     charDiv.append(episodes);
-
+    console.log("Created: " + charData[0]);
+    
     return charDiv;
-
-
+    
+    
+}//if not null
 }//create character
 
 
 function createLocationElement(response) {
+    if(response!=null){
+
+        num++;
+        console.log(num);
     var locData = parseLocationData(response);
     var people = locData[2];
-
+    
     for (let i = 0; i < people.length; i++) {
         people[i] = getLinkId(people[i]);
     }//for each person
-
+    
     var locDiv = $("<div>");
     var locPic = $("<img>");
     locPic.attr("src", "https://i.guim.co.uk/img/media/b563ac5db4b4a4e1197c586bbca3edebca9173cd/0_12_3307_1985/master/3307.jpg?width=300&quality=85&auto=format&fit=max&s=a84d55a053bad561a57034beff1f1243");
+    locPic.attr("alt", locData[0] + " picture");
     locDiv.append(locPic);
     var locName = $("<h4>");
     locName.text(locData[0]);
     locDiv.append(locName);
     var locDimension = $("<p>");
-    locDimension.text(locData[1]);
+    locDimension.text("Dimension: " + locData[1]);
     locDiv.append(locDimension);
     locPeople = $("<p>");
     locPeople.attr("data-people", people);
     locPeople.text("Click to view the " + people.length + " characters in this location.");
+    locPeople.addClass("peopleLink")
     locDiv.append(locPeople);
-    console.log(response);
-    console.log(locData);
+    //console.log(response);
+    //console.log(locData);
+    console.log("Created: " + locData[0]);
+    
     return locDiv;
-
+}//if not null
+    
 }//createLocation
 
 function createEpisodeElement(response) {
-    var epData = parseEpisodeData(response);
-    var people = epData[2];
+    if(response!=null){
 
-    for(let i=0; i<people.length;i++){
-        people[i] = getLinkId(people[i]);
-    }//for
-
-    var epDiv=$("<div>");
-    var epPic=$("<img>");
-    epPic.attr("src","https://i.guim.co.uk/img/media/b563ac5db4b4a4e1197c586bbca3edebca9173cd/0_12_3307_1985/master/3307.jpg?width=300&quality=85&auto=format&fit=max&s=a84d55a053bad561a57034beff1f1243");
-    epDiv.append(epPic);
-    var epName = $("<h4>");
-    epName.text(epData[0]);
-    epDiv.append(epName);
-    var epSeason = $("<p>");
-    epSeason.text(epData[1]);
-    epDiv.append(epSeason);
-    var epChars= $("<p>");
-    epChars.text("Click to view the "+people.length+" characters in this episode");
-    epChars.attr("data-people",people);
-    epDiv.append(epChars);
-
-    return epDiv;
-
-}//create episode
-
-
-function parseCharacterData(data) {
-
-    var charData = [];
-
-    charData.push(data.name);
-    charData.push(data.location);
+        var epData = parseEpisodeData(response);
+        var people = epData[2];
+        
+        for (let i = 0; i < people.length; i++) {
+            people[i] = getLinkId(people[i]);
+        }//for
+        
+        var epDiv = $("<div>");
+        var epPic = $("<img>");
+        epPic.attr("src", "https://i.guim.co.uk/img/media/b563ac5db4b4a4e1197c586bbca3edebca9173cd/0_12_3307_1985/master/3307.jpg?width=300&quality=85&auto=format&fit=max&s=a84d55a053bad561a57034beff1f1243");
+        epPic.attr(epData[0] + " picture");
+        epDiv.append(epPic);
+        var epName = $("<h4>");
+        epName.text(epData[0]);
+        epDiv.append(epName);
+        var epSeason = $("<p>");
+        epSeason.text(epData[1]);
+        epDiv.append(epSeason);
+        var epChars = $("<p>");
+        epChars.text("Click to view the " + people.length + " characters in this episode");
+        epChars.attr("data-people", people);
+        epChars.addClass("peopleLink")
+        epDiv.append(epChars);
+        console.log("Created: " + epData[0]);
+        return epDiv;
+    }//if not null
+        
+    }//create episode
+    
+    
+    function parseCharacterData(data) {
+        
+        var charData = [];
+        
+        charData.push(data.name);
+        charData.push(data.location);
     charData.push(data.episode);
     charData.push(data.image);
-    console.log(charData);
+    //console.log(charData);
     return charData;
 }
 
@@ -181,7 +259,7 @@ function parseLocationData(data) {
 function getLinkId(url) {
 
     var id = url.slice(url.lastIndexOf('/') + 1, url.length);
-    console.log("ID= " + id);
+    //console.log("ID= " + id);
     return id;
 
 }
