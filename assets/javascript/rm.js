@@ -13,7 +13,7 @@ $("#ep").click(function () { displayEpisodes(test) });
 $("#loc").click(function () { displayLocations(test) });
 
 $("#cardContainer").on("click", ".peopleLink", function () {
-    var link = $(this).attr("data-people");
+    var link = JSON.parse($(this).attr("data-people"));
     console.log("displaying people: " + link);
 
     displayCharacters(link);
@@ -21,23 +21,32 @@ $("#cardContainer").on("click", ".peopleLink", function () {
 });
 
 $("#cardContainer").on("click", ".episodeLink", function () {
-    var link = $(this).attr("data-episode");
+    var link = JSON.parse($(this).attr("data-episode"));
     console.log("displaying episodes: " + link)
 
-    displayEpisodes("[" + link + "]");
+    displayEpisodes(link);
 
 });
 
 $("#cardContainer").on("click", ".locationLink", function () {
-    var link = $(this).attr("data-location");
+    var link = JSON.parse($(this).attr("data-location"));
     console.log("displaying locations: " + link);
 
-    displayLocations("[" + link + "]");
+    displayLocations(link);
 
 });
 
+$.ajax({
+    url: characterURL+"?name=rick",
+    method:"GET"
+}).done(function(response){
+    console.log(response);
 
+    for(let i=0;i<response.results.length;i++){
+        $("#cardContainer").append(createCharacterElement(response.results[i]));
+    }
 
+});
 
 function displayCharacters(people) {
     $.ajax({
@@ -55,7 +64,10 @@ function displayCharacters(people) {
 
         }        //if one character
         else {
+            
+            console.log(people.length + " characters");
             for (var i = 0; i < people.length; i++) {
+
                 $("#cardContainer").append(createCharacterElement(response[i]));
 
             }//for
@@ -71,7 +83,9 @@ function displayEpisodes(episodes) {
     }).done(function (response) {
         $("#cardContainer").empty();
         num = 0;
-
+        console.log(episodes);
+        console.log(episodes.length);
+        console.log(response);
 
         if (episodes.length === 1) {
             $("#cardContainer").append(createEpisodeElement(response));
@@ -104,7 +118,7 @@ function displayLocations(locations) {
 
         }
         else {
-
+          console.log(locations.length)
             for (var i = 0; i < locations.length; i++) {
                 $("#cardContainer").append(createLocationElement(response[i]));
             }
@@ -116,92 +130,92 @@ function displayLocations(locations) {
 
 function createCharacterElement(response) {
     //console.log("Character");
-    //console.log(response);
-    if(response!=null){
+    console.log(response);
+    if (response != null) {
 
         num++;
         console.log(num);
         var charData = parseCharacterData(response);
         //console.log(charData);
         let eps = charData[2];
-    for (let i = 0; i < eps.length; i++) {
-        eps[i] = getLinkId(eps[i]);
-    }//for
-    
-    var charDiv = $("<div>");
-    var charPic = $("<img>");
-    charPic.attr("src", charData[3]);
-    charPic.attr("alt", charData[0] + " picture");
-    charDiv.append(charPic);
-    var charName = $("<h4>");
-    charName.text(charData[0]);
-    charDiv.append(charName);
-    var charLoc = $("<p>");
-    charLoc.text("Location: " + charData[1].name);
-    charLoc.attr("data-location", getLinkId(charData[1].url));
-    charLoc.addClass("locationLink");
-    charDiv.append(charLoc);
-    var episodes = $("<p>");
-    episodes.text("Click to view the " + eps.length + " episode(s) this character is in");
-    episodes.attr("data-episode", eps);
-    episodes.addClass("episodeLink");
-    charDiv.append(episodes);
-    console.log("Created: " + charData[0]);
-    
-    return charDiv;
-    
-    
-}//if not null
+        for (let i = 0; i < eps.length; i++) {
+            eps[i] = getLinkId(eps[i]);
+        }//for
+
+        var charDiv = $("<div>");
+        var charPic = $("<img>");
+        charPic.attr("src", charData[3]);
+        charPic.attr("alt", charData[0] + " picture");
+        charDiv.append(charPic);
+        var charName = $("<h4>");
+        charName.text(charData[0]);
+        charDiv.append(charName);
+        var charLoc = $("<p>");
+        charLoc.text("Location: " + charData[1].name);
+        charLoc.attr("data-location", getLinkId(charData[1].url));
+        charLoc.addClass("locationLink");
+        charDiv.append(charLoc);
+        var episodes = $("<p>");
+        episodes.text("Click to view the " + eps.length + " episode(s) this character is in");
+        episodes.attr("data-episode", JSON.stringify(eps));
+        episodes.addClass("episodeLink");
+        charDiv.append(episodes);
+        console.log("Created: " + charData[0]);
+
+        return charDiv;
+
+
+    }//if not null
 }//create character
 
 
 function createLocationElement(response) {
-    if(response!=null){
+    if (response != null) {
 
         num++;
         console.log(num);
-    var locData = parseLocationData(response);
-    var people = locData[2];
-    
-    for (let i = 0; i < people.length; i++) {
-        people[i] = getLinkId(people[i]);
-    }//for each person
-    
-    var locDiv = $("<div>");
-    var locPic = $("<img>");
-    locPic.attr("src", "https://i.guim.co.uk/img/media/b563ac5db4b4a4e1197c586bbca3edebca9173cd/0_12_3307_1985/master/3307.jpg?width=300&quality=85&auto=format&fit=max&s=a84d55a053bad561a57034beff1f1243");
-    locPic.attr("alt", locData[0] + " picture");
-    locDiv.append(locPic);
-    var locName = $("<h4>");
-    locName.text(locData[0]);
-    locDiv.append(locName);
-    var locDimension = $("<p>");
-    locDimension.text("Dimension: " + locData[1]);
-    locDiv.append(locDimension);
-    locPeople = $("<p>");
-    locPeople.attr("data-people", people);
-    locPeople.text("Click to view the " + people.length + " characters in this location.");
-    locPeople.addClass("peopleLink")
-    locDiv.append(locPeople);
-    //console.log(response);
-    //console.log(locData);
-    console.log("Created: " + locData[0]);
-    
-    return locDiv;
-}//if not null
-    
+        var locData = parseLocationData(response);
+        var people = locData[2];
+
+        for (let i = 0; i < people.length; i++) {
+            people[i] = getLinkId(people[i]);
+        }//for each person
+
+        var locDiv = $("<div>");
+        var locPic = $("<img>");
+        locPic.attr("src", "https://i.guim.co.uk/img/media/b563ac5db4b4a4e1197c586bbca3edebca9173cd/0_12_3307_1985/master/3307.jpg?width=300&quality=85&auto=format&fit=max&s=a84d55a053bad561a57034beff1f1243");
+        locPic.attr("alt", locData[0] + " picture");
+        locDiv.append(locPic);
+        var locName = $("<h4>");
+        locName.text(locData[0]);
+        locDiv.append(locName);
+        var locDimension = $("<p>");
+        locDimension.text("Dimension: " + locData[1]);
+        locDiv.append(locDimension);
+        locPeople = $("<p>");
+        locPeople.attr("data-people", JSON.stringify(people));
+        locPeople.text("Click to view the " + people.length + " characters in this location.");
+        locPeople.addClass("peopleLink")
+        locDiv.append(locPeople);
+        //console.log(response);
+        //console.log(locData);
+        console.log("Created: " + locData[0]);
+
+        return locDiv;
+    }//if not null
+
 }//createLocation
 
 function createEpisodeElement(response) {
-    if(response!=null){
+    if (response != null) {
 
         var epData = parseEpisodeData(response);
         var people = epData[2];
-        
+
         for (let i = 0; i < people.length; i++) {
             people[i] = getLinkId(people[i]);
         }//for
-        
+
         var epDiv = $("<div>");
         var epPic = $("<img>");
         epPic.attr("src", "https://i.guim.co.uk/img/media/b563ac5db4b4a4e1197c586bbca3edebca9173cd/0_12_3307_1985/master/3307.jpg?width=300&quality=85&auto=format&fit=max&s=a84d55a053bad561a57034beff1f1243");
@@ -215,24 +229,25 @@ function createEpisodeElement(response) {
         epDiv.append(epSeason);
         var epChars = $("<p>");
         epChars.text("Click to view the " + people.length + " characters in this episode");
-        epChars.attr("data-people", people);
+        epChars.attr("data-people", JSON.stringify(people));
         epChars.addClass("peopleLink")
         epDiv.append(epChars);
         console.log("Created: " + epData[0]);
         return epDiv;
     }//if not null
-        
-    }//create episode
-    
-    
-    function parseCharacterData(data) {
-        
-        var charData = [];
-        
-        charData.push(data.name);
-        charData.push(data.location);
+
+}//create episode
+
+
+function parseCharacterData(data) {
+
+    var charData = [];
+
+    charData.push(data.name);
+    charData.push(data.location);
     charData.push(data.episode);
     charData.push(data.image);
+    charData.push(data.url);
     //console.log(charData);
     return charData;
 }
