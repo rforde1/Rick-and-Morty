@@ -8,9 +8,120 @@ var test = [num];
 
 var num = 0;
 
+$(document).ready(function () {
+    $('select').formSelect();
+});
+
 $("#char").click(function () { displayCharacters(test) });
 $("#ep").click(function () { displayEpisodes(test) });
 $("#loc").click(function () { displayLocations(test) });
+
+$("#submit").click(function () {
+    var searchType = $("#searchType").val();
+    var searchInput = $("#userInput").val();
+    console.log(searchType);
+    console.log("button pressed");
+    if (searchType != null && searchInput != "") {
+        console.log("deciding search parameters");
+        switch (searchType) {
+            case "1":
+                console.log("searching for character: " + searchInput);
+                characterSearch(searchInput);
+                break;
+            case "2":
+                console.log("searching for episode: " + searchInput);
+
+                episodeSearch(searchInput);
+                break;
+            case "3":
+                console.log("searching for location: " + searchInput);
+
+                locationSearch(searchInput);
+                break;
+            default:
+                console.log("search failed");
+                break;
+        }
+
+
+
+    }//if given input
+
+});
+
+function characterSearch(input) {
+    var numCheck = parseInt(input);
+    if (parseInt(numCheck) > 0 && numCheck < 494) {
+        
+        displayCharacters(numCheck);
+    }//if id
+    else {
+        $("#cardContainer").empty();
+        $.ajax({
+            url: characterURL+"?name="+input,
+            method:"GET"
+        }).done(function(response){
+            console.log(response);
+        
+            for(let i=0;i<response.results.length;i++){
+                $("#cardContainer").append(createCharacterElement(response.results[i]));
+            }
+        
+        }).fail(function(response){
+            $("#cardContainer").append("<h1> No Results </h1>");
+        });
+
+    }//else name
+
+}//characterSearch
+
+function episodeSearch(input) {
+    var numCheck = parseInt(input);
+    if (parseInt(numCheck) > 0 && numCheck < 32) {
+        console.log("ID="+numCheck);
+        displayEpisodes(numCheck);
+    }//if id
+    else {
+        $("#cardContainer").empty();
+        $.ajax({
+            url: episodeURL+"?name="+input,
+            method:"GET"
+        }).done(function(response){
+            console.log(response);
+        
+            for(let i=0;i<response.results.length;i++){
+                $("#cardContainer").append(createEpisodeElement(response.results[i]));
+            }
+        
+        }).fail(function(response){
+            $("#cardContainer").append("<h1> No Results </h1>");
+        });
+    }//else name
+}
+
+function locationSearch(input) {
+    var numCheck = parseInt(input);
+    if (parseInt(numCheck) > 0 && numCheck < 77) {
+        console.log("ID="+numCheck);
+        displayLocations(numCheck);
+    }//if id
+    else {
+        $("#cardContainer").empty();
+        $.ajax({
+            url: locationURL+"?name="+input,
+            method:"GET"
+        }).done(function(response){
+            console.log(response);
+        
+            for(let i=0;i<response.results.length;i++){
+                $("#cardContainer").append(createLocationElement(response.results[i]));
+            }
+        
+        }).fail(function(response){
+            $("#cardContainer").append("<h1> No Results </h1>");
+        });
+    }//else name
+}
 
 $("#cardContainer").on("click", ".peopleLink", function () {
     var link = JSON.parse($(this).attr("data-people"));
@@ -36,17 +147,7 @@ $("#cardContainer").on("click", ".locationLink", function () {
 
 });
 
-$.ajax({
-    url: characterURL+"?name=rick",
-    method:"GET"
-}).done(function(response){
-    console.log(response);
 
-    for(let i=0;i<response.results.length;i++){
-        $("#cardContainer").append(createCharacterElement(response.results[i]));
-    }
-
-});
 
 function displayCharacters(people) {
     $.ajax({
@@ -58,13 +159,13 @@ function displayCharacters(people) {
         num = 0;
         //console.log(response);
 
-        if (people.length === 1) {
-            //console.log("one character")
+        if (people.length === 1 || !Array.isArray(people)) {
+            console.log("one character")
             $("#cardContainer").append(createCharacterElement(response));
 
         }        //if one character
         else {
-            
+
             console.log(people.length + " characters");
             for (var i = 0; i < people.length; i++) {
 
@@ -87,7 +188,8 @@ function displayEpisodes(episodes) {
         console.log(episodes.length);
         console.log(response);
 
-        if (episodes.length === 1) {
+        if (episodes.length === 1 || !Array.isArray(episodes)) {
+            console.log("one episode")
             $("#cardContainer").append(createEpisodeElement(response));
 
         }//if 1
@@ -113,12 +215,13 @@ function displayLocations(locations) {
         $("#cardContainer").empty();
         num = 0;
 
-        if (locations.length === 1) {
+        if (locations.length === 1 || !Array.isArray(locations)) {
+            console.log("one location");
             $("#cardContainer").append(createLocationElement(response));
 
         }
         else {
-          console.log(locations.length)
+            console.log(locations.length)
             for (var i = 0; i < locations.length; i++) {
                 $("#cardContainer").append(createLocationElement(response[i]));
             }
