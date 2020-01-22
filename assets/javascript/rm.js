@@ -116,7 +116,8 @@ function createCharacterElement(response) {
         episodes.attr("data-episode", JSON.stringify(eps));
         episodes.addClass("episodeLink");
         charDiv.append(episodes);
-        console.log("Created: " + charData[0]);
+        console.log("Created: " +response.id+" "+ charData[0]);
+
 
         return charDiv;
 
@@ -155,7 +156,8 @@ function createLocationElement(response) {
         locDiv.append(locPeople);
         //console.log(response);
         //console.log(locData);
-        console.log("Created: " + locData[0]);
+        console.log("Created: " +response.id+" "+ locData[0]);
+
 
         return locDiv;
     }//if not null

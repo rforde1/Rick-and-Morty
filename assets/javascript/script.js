@@ -3,6 +3,28 @@ const searchButton = "#submit";
 const searchTypeElement="#searchType";
 const searchInputElement="#userInput";
 
+var startingCharacter="";
+var targetCharacter="";
+var targetGenerated=false;
+
+
+function beginGame(){
+    var rand = Math.floor(Math.random()*493);
+    targetCharacter=rand;
+    rand = Math.floor(Math.random()*493);
+    startingCharacter=rand;
+
+    while(targetCharacter==startingCharacter){
+    rand = Math.floor(Math.random()*493);
+    startingCharacter=rand;
+    }
+
+}
+beginGame();
+console.log("starting at: "+startingCharacter);
+console.log("Searching for: "+targetCharacter);
+displayCharacters([startingCharacter,targetCharacter]);
+
 $(document).ready(function () {
     $('select').formSelect();
 });
