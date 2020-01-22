@@ -3,50 +3,8 @@ const characterURL = baseURL + "character/";
 const locationURL = baseURL + "location/";
 const episodeURL = baseURL + "episode/";
 
-var num = Math.floor(Math.random() * Math.floor(31))
-var test = [num];
-
 var num = 0;
 
-$("#char").click(function () { displayCharacters(test) });
-$("#ep").click(function () { displayEpisodes(test) });
-$("#loc").click(function () { displayLocations(test) });
-
-$("#cardContainer").on("click", ".peopleLink", function () {
-    var link = JSON.parse($(this).attr("data-people"));
-    console.log("displaying people: " + link);
-
-    displayCharacters(link);
-
-});
-
-$("#cardContainer").on("click", ".episodeLink", function () {
-    var link = JSON.parse($(this).attr("data-episode"));
-    console.log("displaying episodes: " + link)
-
-    displayEpisodes(link);
-
-});
-
-$("#cardContainer").on("click", ".locationLink", function () {
-    var link = JSON.parse($(this).attr("data-location"));
-    console.log("displaying locations: " + link);
-
-    displayLocations(link);
-
-});
-
-$.ajax({
-    url: characterURL+"?name=rick",
-    method:"GET"
-}).done(function(response){
-    console.log(response);
-
-    for(let i=0;i<response.results.length;i++){
-        $("#cardContainer").append(createCharacterElement(response.results[i]));
-    }
-
-});
 
 function displayCharacters(people) {
     $.ajax({
@@ -58,18 +16,16 @@ function displayCharacters(people) {
         num = 0;
         //console.log(response);
 
-        if (people.length === 1) {
-            //console.log("one character")
-            $("#cardContainer").append(createCharacterElement(response));
-
+        if (people.length === 1 || !Array.isArray(people)) {
+            console.log("one character")
+            appendCard(createCharacterElement(response))
         }        //if one character
         else {
-            
+
             console.log(people.length + " characters");
             for (var i = 0; i < people.length; i++) {
 
-                $("#cardContainer").append(createCharacterElement(response[i]));
-
+                appendCard(createCharacterElement(response[i]));
             }//for
         }
 
@@ -87,15 +43,15 @@ function displayEpisodes(episodes) {
         console.log(episodes.length);
         console.log(response);
 
-        if (episodes.length === 1) {
-            $("#cardContainer").append(createEpisodeElement(response));
-
+        if (episodes.length === 1 || !Array.isArray(episodes)) {
+            console.log("one episode")
+            appendCard(createEpisodeElement(response));
         }//if 1
 
         else {
 
             for (var i = 0; i < episodes.length; i++) {
-                $("#cardContainer").append(createEpisodeElement(response[i]));
+            appendCard(createEpisodeElement(response[i]));
             }
         }
 
@@ -113,14 +69,14 @@ function displayLocations(locations) {
         $("#cardContainer").empty();
         num = 0;
 
-        if (locations.length === 1) {
-            $("#cardContainer").append(createLocationElement(response));
-
+        if (locations.length === 1 || !Array.isArray(locations)) {
+            console.log("one location");
+            appendCard(createLocationElement(response));
         }
         else {
-          console.log(locations.length)
+            console.log(locations.length)
             for (var i = 0; i < locations.length; i++) {
-                $("#cardContainer").append(createLocationElement(response[i]));
+                appendCard(createLocationElement(response[i]));
             }
         }
 
@@ -277,4 +233,80 @@ function getLinkId(url) {
     //console.log("ID= " + id);
     return id;
 
+}//get link id
+
+function characterSearch(input) {
+    var numCheck = parseInt(input);
+    if (parseInt(numCheck) > 0 && numCheck < 494) {
+        
+        displayCharacters(numCheck);
+    }//if id
+    else {
+        $("#cardContainer").empty();
+        $.ajax({
+            url: characterURL+"?name="+input,
+            method:"GET"
+        }).done(function(response){
+            console.log(response);
+        
+            for(let i=0;i<response.results.length;i++){
+            appendCard(createCharacterElement(response.results[i]));
+            }
+        
+        }).fail(function(response){
+            appendCard("<h1> No Results </h1>");
+
+        });
+
+    }//else name
+
+}//characterSearch
+
+function episodeSearch(input) {
+    var numCheck = parseInt(input);
+    if (parseInt(numCheck) > 0 && numCheck < 32) {
+        console.log("ID="+numCheck);
+        displayEpisodes(numCheck);
+    }//if id
+    else {
+        $("#cardContainer").empty();
+        $.ajax({
+            url: episodeURL+"?name="+input,
+            method:"GET"
+        }).done(function(response){
+            console.log(response);
+        
+            for(let i=0;i<response.results.length;i++){
+                appendCard(createEpisodeElement(response.results[i]));
+            }
+        
+        }).fail(function(response){
+            appendCard("<h1> No Results </h1>");
+
+        });
+    }//else name
 }
+
+function locationSearch(input) {
+    var numCheck = parseInt(input);
+    if (parseInt(numCheck) > 0 && numCheck < 77) {
+        console.log("ID="+numCheck);
+        displayLocations(numCheck);
+    }//if id
+    else {
+        $("#cardContainer").empty();
+        $.ajax({
+            url: locationURL+"?name="+input,
+            method:"GET"
+        }).done(function(response){
+            console.log(response);
+        
+            for(let i=0;i<response.results.length;i++){
+                appendCard(createLocationElement(response.results[i]));
+            }
+        
+        }).fail(function(response){
+            appendCard("<h1> No Results </h1>");
+        });
+    }//else name
+}//locationSearch
