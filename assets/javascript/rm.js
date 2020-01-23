@@ -6,26 +6,46 @@ const episodeURL = baseURL + "episode/";
 var num = 0;
 
 
-function displayCharacters(people) {
+function displayCharacters(people,game) {
     $.ajax({
         url: characterURL + people,
         method: "GET"
     }).done(function (response) {
-
-        $("#cardContainer").empty();
+       
         num = 0;
         //console.log(response);
 
         if (people.length === 1 || !Array.isArray(people)) {
             console.log("one character")
-            appendCard(createCharacterElement(response))
+
+            if(game == true){
+                appendTarget(createCharacterElement(response))
+                targetCharacterName=response.name;
+                console.log("Searching for: "+targetCharacterName);
+            }
+
+            else{
+                $(cardTarget).empty();
+                var card=createCharacterElement(response);
+                if(card!=null){
+                    appendCard(card);
+                }
+
+            }
+
         }        //if one character
         else {
-
+            $(cardTarget).empty();
             console.log(people.length + " characters");
             for (var i = 0; i < people.length; i++) {
+                var card = createCharacterElement(response[i]);
+                if(card==null){
+                    return;
+                }
+                else{
 
-                appendCard(createCharacterElement(response[i]));
+                    appendCard(card);
+                }
             }//for
         }
 
@@ -37,7 +57,7 @@ function displayEpisodes(episodes) {
         url: episodeURL + episodes,
         method: "GET"
     }).done(function (response) {
-        $("#cardContainer").empty();
+        $(cardTarget).empty();
         num = 0;
         console.log(episodes);
         console.log(episodes.length);
@@ -66,7 +86,7 @@ function displayLocations(locations) {
         url: locationURL + locations,
         method: "GET"
     }).done(function (response) {
-        $("#cardContainer").empty();
+        $(cardTarget).empty();
         num = 0;
 
         if (locations.length === 1 || !Array.isArray(locations)) {
@@ -117,7 +137,12 @@ function createCharacterElement(response) {
         episodes.addClass("episodeLink");
         charDiv.append(episodes);
         console.log("Created: " +response.id+" "+ charData[0]);
-
+        if(charData[0]==targetCharacterName && gameStarted==true){
+            console.log("success");
+            gameStarted=false;
+            gameEnded(response);
+            return null;
+        }
 
         return charDiv;
 
@@ -241,10 +266,10 @@ function characterSearch(input) {
     var numCheck = parseInt(input);
     if (parseInt(numCheck) > 0 && numCheck < 494) {
         
-        displayCharacters(numCheck);
+        displayCharacters(numCheck,false);
     }//if id
     else {
-        $("#cardContainer").empty();
+        $(cardTarget).empty();
         $.ajax({
             url: characterURL+"?name="+input,
             method:"GET"
@@ -271,7 +296,7 @@ function episodeSearch(input) {
         displayEpisodes(numCheck);
     }//if id
     else {
-        $("#cardContainer").empty();
+        $(cardTarget).empty();
         $.ajax({
             url: episodeURL+"?name="+input,
             method:"GET"
@@ -296,7 +321,7 @@ function locationSearch(input) {
         displayLocations(numCheck);
     }//if id
     else {
-        $("#cardContainer").empty();
+        $(cardTarget).empty();
         $.ajax({
             url: locationURL+"?name="+input,
             method:"GET"
