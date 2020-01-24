@@ -1,7 +1,7 @@
-/* #buttons{
-    display: table-cell;
-  vertical-align: middle
-} */
+html{
+    width: fit-content;
+}
+
 body{
     background-color: teal;
     background-image: url("https://i.ytimg.com/vi/BvHls0CROh0/maxresdefault.jpg");
@@ -9,6 +9,12 @@ body{
     background-repeat: no-repeat;
     background-size: cover; 
     height: 100%;
+    background-color: white;
+    border: solid teal 5px;
+    border-radius: 7px;
+    padding: 28px;
+    margin-bottom: 10px;
+
 }
 
 h4{
