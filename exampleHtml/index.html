@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+        </script>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="../../projects/Rick-and-Morty/assets/javascript/rm.js" defer></script>
+    <script src="../../projects/Rick-and-Morty/assets/javascript/script.js" defer></script>
+
+</head>
+
+<body>
+    <button id="char"> Get Character</button>
+    <button id="ep">Get Episode</button>
+    <button id="loc">Get Location</button>
+   
+    <div class="row">
+        <div class="input-field col l2">
+
+            <select id="searchType">
+                <option value="" disabled selected>Choose your option</option>
+                <option value="1">Character</option>
+                <option value="2">Episode</option>
+                <option value="3">Location</option>
+            </select>
+            <label>Search Type</label>
+        </div>
+
+        <div class="input-field col l10">
+            <input placeholder="Rick" id="userInput" type="text" class="validate">
+            <label for="userInput">Enter name or id</label>
+        </div>
+    </div>
+    <button id="submit">Submit</button>
+    <div id="cardContainer"></div>
+
+
+
+
+
+
+</body>
+
+</html>
