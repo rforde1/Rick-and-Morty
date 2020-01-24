@@ -2,6 +2,15 @@
 var container = $(".container");
 var buttonDiv = $("#buttons");
 
+// Random background-image for body
+// https://stackoverflow.com/questions/15231812/random-background-images-css3-- refrence
+var images = ["https://i.ytimg.com/vi/BvHls0CROh0/maxresdefault.jpg", 
+            "https://cdnb.artstation.com/p/assets/images/images/020/740/709/original/win-dolores-ricknmorty-gif.gif?1568981763", 
+            "https://nypdecider.files.wordpress.com/2019/07/rick-and-morty-season-4-better-address.jpg?quality=80&strip=all&w=646&h=431&crop=1", 
+             "https://wallpaperscute.com/wp-content/uploads/2018/04/HD-Rick-Morty-Backgrounds.jpg"];
+$("body").css({"background-image": "url(" + images[Math.floor(Math.random() * images.length)] + ")"});
+console.log("Images");
+
 // Create array for countries
 var countries = ["uk", "us", "ar", "at", "au", "be", "br", "ca", "ch", "cz", "dk", "de", "ee", "es", "fr", "hk", "hu", "ie", "il", "in", "is", "it", "jp", "kr", "lt", "lv", "mx", "nl", "no", "nz", "ph", "pl", "pt", "ro", "ru", "se", "sg", "sk", "th" ,"za"];
 for(var i = 0; i < countries.length; i ++) {

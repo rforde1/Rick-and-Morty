@@ -1,20 +1,14 @@
 html{
-    width: fit-content;
+    margin: 0;
 }
 
 body{
     background-color: teal;
-    background-image: url("https://i.ytimg.com/vi/BvHls0CROh0/maxresdefault.jpg");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover; 
-    height: 100%;
-    background-color: white;
-    border: solid teal 5px;
-    border-radius: 7px;
-    padding: 28px;
-    margin-bottom: 10px;
-
+    background-size: 100% 100%; 
+    height:100%;
+    margin: 0;
 }
 
 h4{
@@ -27,5 +21,9 @@ h4{
 
 #where-to-watch{
     background-color: white;
+    border: solid teal 5px;
+    border-radius: 7px;
+    padding: 28px;
+    margin-bottom: 10px;
 
 }
