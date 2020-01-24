@@ -1,0 +1,18 @@
+.searchResults {
+    height: 200px !important;
+
+
+}
+
+.customCard {
+    width: 150px !important;
+    height: 75%;
+}
+
+body { 
+    background: url("https://shawglobalnews.files.wordpress.com/2019/12/rick-and-morty.jpg?quality=70&strip=all") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
