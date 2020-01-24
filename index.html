@@ -27,13 +27,7 @@
     <div class="nav-wrapper">
       <a href="#" class="brand-logo">Nav Bar</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <form>
-          <div class="input-field">
-            <input id="search" type="search" required>
-            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-            <i class="material-icons">close</i>
-          </div>
-        </form>
+        
       </ul>
     </div>
   </nav>
@@ -49,6 +43,22 @@
       </h1>
 
     </div>
+    <div class="input-field col l2">
+
+      <select id="searchType">
+        <option value="" disabled selected>Choose your option</option>
+        <option value="1">Character</option>
+        <option value="2">Episode</option>
+        <option value="3">Location</option>
+      </select>
+      <label>Search Type</label>
+    </div>
+
+    <div class="input-field col l8">
+      <input placeholder="Rick" id="userInput" type="text" class="validate">
+      <label for="userInput">Enter name or id</label>
+    </div>
+    <button class="btn col l2" id="submit">Submit</button>
   </div>
 
 

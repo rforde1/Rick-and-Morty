@@ -5,7 +5,7 @@ const episodeURL = baseURL + "episode/";
 
 var num = 0;
 
-displayCharacters([12,13,14,15,16],false);
+// displayCharacters([12,13,14,15,16],false);
 
 
 function displayCharacters(people,game) {
