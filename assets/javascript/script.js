@@ -1,3 +1,8 @@
+// Side bar for mobile responsiveness
+$(document).ready(function(){
+    $('.sidenav').sidenav();
+  });
+
 //where result cards go
 const cardTarget = "#cardContainer";
 //button to search for character/location/episode

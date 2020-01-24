@@ -1,6 +1,13 @@
+// Side bar for mobile responsiveness
+$(document).ready(function(){
+    $('.sidenav').sidenav();
+  });
+
+
 // Grab placeholders elements
 var container = $(".container");
 var buttonDiv = $("#buttons");
+
 
 // Random background-image for body
 // https://stackoverflow.com/questions/15231812/random-background-images-css3-- refrence

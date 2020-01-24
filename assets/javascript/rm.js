@@ -1,3 +1,9 @@
+// Side bar for mobile responsiveness
+$(document).ready(function(){
+    $('.sidenav').sidenav();
+  });
+
+
 const baseURL = "https://rickandmortyapi.com/api/";
 const characterURL = baseURL + "character/";
 const locationURL = baseURL + "location/";
