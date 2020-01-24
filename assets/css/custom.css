@@ -9,6 +9,10 @@
     height: 75%;
 }
 
+.card-title{
+    background-color: black;
+}
+
 body { 
     background: url("https://shawglobalnews.files.wordpress.com/2019/12/rick-and-morty.jpg?quality=70&strip=all") no-repeat center center fixed; 
     -webkit-background-size: cover;

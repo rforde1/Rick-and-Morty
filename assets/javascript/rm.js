@@ -5,6 +5,8 @@ const episodeURL = baseURL + "episode/";
 
 var num = 0;
 
+displayCharacters([12,13,14,15,16],false);
+
 
 function displayCharacters(people,game) {
     $.ajax({
@@ -117,25 +119,35 @@ function createCharacterElement(response) {
         for (let i = 0; i < eps.length; i++) {
             eps[i] = getLinkId(eps[i]);
         }//for
-
+        var colDiv = $("<div>");
+        colDiv.addClass("col");
         var charDiv = $("<div>");
+        charDiv.addClass("card");
+        var cardImage = $("<div>");
+        cardImage.addClass("card-image");
         var charPic = $("<img>");
         charPic.attr("src", charData[3]);
         charPic.attr("alt", charData[0] + " picture");
-        charDiv.append(charPic);
-        var charName = $("<h4>");
+        cardImage.append(charPic);
+        var charName = $("<span>");
+        charName.addClass("card-title");
         charName.text(charData[0]);
-        charDiv.append(charName);
+        cardImage.append(charName);
+        charDiv.append(cardImage);
+        var cardContent = $("<div>");
+        cardContent.addClass("card-content");
         var charLoc = $("<p>");
         charLoc.text("Location: " + charData[1].name);
         charLoc.attr("data-location", getLinkId(charData[1].url));
         charLoc.addClass("locationLink");
-        charDiv.append(charLoc);
+        cardContent.append(charLoc);
         var episodes = $("<p>");
         episodes.text("Click to view the " + eps.length + " episode(s) this character is in");
         episodes.attr("data-episode", JSON.stringify(eps));
         episodes.addClass("episodeLink");
-        charDiv.append(episodes);
+        cardContent.append(episodes);
+        charDiv.append(cardContent);
+        colDiv.append(charDiv);
         console.log("Created: " +response.id+" "+ charData[0]);
         if(charData[0]==targetCharacterName && gameStarted==true){
             console.log("success");
@@ -144,7 +156,7 @@ function createCharacterElement(response) {
             return null;
         }
 
-        return charDiv;
+        return colDiv;
 
 
     }//if not null
