@@ -1,9 +1,17 @@
+//where result cards go
 const cardTarget = "#cardContainer";
+//button to search for character/location/episode
 const searchButton = "#submit";
+//dropdown for search type
 const searchTypeElement = "#searchType";
+//search input field
 const searchInputElement = "#userInput";
+//where game target goes
 const gameTarget = "#targetCol";
+//where score counter goes
 const scoreTarget="#scoreCol"
+//button to begin game
+const gameButton = "#startGame";
 
 var startingCharacterID = "";
 var targetCharacterID = "";
@@ -12,7 +20,7 @@ var targetGenerated = false;
 var gameStarted = false;
 var numSteps=0;
 
-$("#startGame").click(function () {
+$(gameButton).click(function () {
     $(this).hide();
     beginGame();
 });
