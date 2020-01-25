@@ -31,6 +31,11 @@ body {
      margin-top: 11px;
  }
  
+#startGame{
+    height: 10px;
+     height: 59px;
+     margin-top: 11px;
+}
 
   .input-field{
       background-color: white;
