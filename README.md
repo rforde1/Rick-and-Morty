@@ -14,11 +14,12 @@ https://rforde1.github.io/Rick-and-Morty/
    When the page is first loaded, it will default to the wiki page where you may search for characters/episodes/locations by name or id. Each result will display the information about the target as well as provide clickable text that allows the user to traverse all available results related to it. The navbar at the top of the page can be used to change to either the game page or the where to watch page.
 ![Screenshot](assets/pictures/home.jpg)
 
-    When the game page is loaded, the user will be prompted with a button to begin the game. Once the game starts, the starting character will be displayed on the left, with the target character and number of moves taken displayed on the right. The user will then have to use the results given about the character to view either the location or episode(s) the character is found in. This process will continue with the user traversing from characters to episode/location back to characters until the target character has been found. The step counter is incremented every time new characters are displayed. Once the target has been found, both sides will show the same character and the game will be over.
+   When the game page is loaded, the user will be prompted with a button to begin the game. Once the game starts, the starting character will be displayed on the left, with the target character and number of moves taken displayed on the right. The user will then have to use the results given about the character to view either the location or episode(s) the character is found in. This process will continue with the user traversing from characters to episode/location back to characters until the target character has been found. The step counter is incremented every time new characters are displayed. Once the target has been found, both sides will show the same character and the game will be over.
 
 ![Screenshot](assets/pictures/game.jpg) 
 
-    When the where to watch page is loaded, the user will be asked to allow the site to access their location. If they accept, the application will use their current location to attempt to display where to watch the show in their country. Afterwards, the user may use the buttons shown on the left side of the page to view links to various platforms where Rick and Morty is available in their country.
+   When the where to watch page is loaded, the user will be asked to allow the site to access their location. If they accept, the application will use their current location to attempt to display where to watch the show in their country. Afterwards, the user may use the buttons shown on the left side of the page to view links to various platforms where Rick and Morty is available in their country.
+
 ![Screenshot](assets/pictures/watch.jpg)
 
 ## Resources
