@@ -27,6 +27,9 @@ https://rforde1.github.io/Rick-and-Morty/
 
 ## Resources
 Rick and Morty api: https://rickandmortyapi.com/
+<br />
 Utelly api: https://rapidapi.com/utelly/api/utelly
+<br />
 Geolocation api: 
+<br />
 Materialize CSS: https://materializecss.com/
