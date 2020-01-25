@@ -30,6 +30,8 @@ Rick and Morty api: https://rickandmortyapi.com/
 <br />
 Utelly api: https://rapidapi.com/utelly/api/utelly
 <br />
-Geolocation api: 
+Geolocation api: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
 <br />
 Materialize CSS: https://materializecss.com/
+<br />
+Reverse Geo-location: https://rapidapi.com/Noggle/api/reverse-geocoding-and-geolocation-service
