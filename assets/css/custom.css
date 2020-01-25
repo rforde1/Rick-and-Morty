@@ -21,6 +21,17 @@ body {
     background-size: cover;
   }
 
+  h4{
+      color: white;
+  }
+
+ #submit{
+     height: 10px;
+     height: 59px;
+     margin-top: 11px;
+ }
+ 
+
   .input-field{
       background-color: white;
       font-size: 16px;
