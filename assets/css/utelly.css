@@ -9,8 +9,12 @@ body{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     height:100%;
     margin: 0;
+
 }
 
 h4{
@@ -22,6 +26,7 @@ h4{
 .btn{
     width:100%;
     margin-bottom: 5px;
+
 }
 
 #where-to-watch{
@@ -37,4 +42,12 @@ h4{
     background-color: #ee6e73;
 }
 
+@media only screen and (max-width: 575px){
+    
+    body{
+        font-size: 14px;
+        width: fit-content;
+    }
+    
+}
 
