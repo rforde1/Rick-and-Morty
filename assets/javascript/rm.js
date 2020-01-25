@@ -321,7 +321,7 @@ function characterSearch(input) {
             }
         
         }).fail(function(response){
-            appendCard("<h1> No Results </h1>");
+            appendCard("<h1 style='color:white;'> No Results </h1>");
 
         });
 
@@ -348,7 +348,7 @@ function episodeSearch(input) {
             }
         
         }).fail(function(response){
-            appendCard("<h1> No Results </h1>");
+            appendCard("<h1 style='color:white;'> No Results </h1>");
 
         });
     }//else name
@@ -373,7 +373,7 @@ function locationSearch(input) {
             }
         
         }).fail(function(response){
-            appendCard("<h1> No Results </h1>");
+            appendCard("<h1 style='color:white;'> No Results </h1>");
         });
     }//else name
 }//locationSearch
